@@ -6,10 +6,14 @@ Everything is a separate toggle, so you can hide all of it or just the bits that
 
 **🌐 Website:** [tony-nz.github.io/NoThanksDiscord](https://tony-nz.github.io/NoThanksDiscord) · **⬇️ [Download the plugin](https://raw.githubusercontent.com/tony-nz/NoThanksDiscord/main/NoThanksDiscord.plugin.js)**
 
-## Screenshot
+## Screenshots
 
-<!-- TODO: add a before/after screenshot of the sidebar -->
-![NoThanksDiscord settings panel](./screenshot.png)
+The settings panel — every item is an independent toggle:
+
+<p align="center">
+  <img src="docs/screenshot-01.png" alt="NoThanksDiscord settings panel — sidebar and UI toggles" width="45%" />
+  <img src="docs/screenshot-02.png" alt="NoThanksDiscord settings panel — upsells and seasonal sounds toggle" width="45%" />
+</p>
 
 ## Install
 

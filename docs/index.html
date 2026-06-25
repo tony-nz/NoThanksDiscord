@@ -83,7 +83,11 @@
 
   .note { background: rgba(35,165,90,.1); border: 1px solid rgba(35,165,90,.4); border-radius: var(--radius);
           padding: 16px 18px; color: var(--text); }
-  .note strong { color: var(--green); }
+  .note strong { color: var(--text); }
+  .note .label { color: var(--green); }
+
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .shots img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); display: block; }
 
   footer { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: .9rem; border-top: 1px solid var(--border); margin-top: 30px; }
 </style>
@@ -118,6 +122,14 @@
   </section>
 
   <section>
+    <h2><span class="dot">#</span> Screenshots</h2>
+    <div class="shots">
+      <img src="screenshot-01.png" alt="NoThanksDiscord settings panel — sidebar and UI toggles" />
+      <img src="screenshot-02.png" alt="NoThanksDiscord settings panel — upsells and seasonal sounds toggle" />
+    </div>
+  </section>
+
+  <section>
     <h2><span class="dot">#</span> Install</h2>
     <ol class="steps">
       <li>Install <a href="https://betterdiscord.app/">BetterDiscord</a> if you haven't already.</li>
@@ -146,7 +158,7 @@
 
   <section>
     <div class="note">
-      <strong>Tip:</strong> every item is an independent toggle in
+      <strong class="label">Tip:</strong> every item is an independent toggle in
       <strong>Settings → Plugins → NoThanksDiscord → ⚙️</strong>. Hide everything, or just the bits that bug you.
     </div>
   </section>
