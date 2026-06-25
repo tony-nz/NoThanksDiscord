@@ -1,172 +1,472 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NoThanksDiscord — declutter your Discord sidebar</title>
-<meta name="description" content="A BetterDiscord plugin that hides the Nitro, Shop, and Quests tabs and other upsell clutter from your sidebar, and stops seasonal sounds overriding your soundpack." />
-<meta property="og:title" content="NoThanksDiscord" />
-<meta property="og:description" content="No upsells, no clutter — just the stuff you actually use." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://tony-nz.github.io/NoThanksDiscord" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🙅</text></svg>" />
-<style>
-  :root {
-    --blurple: #5865f2;
-    --blurple-hover: #4752c4;
-    --bg: #1e1f22;
-    --bg-card: #2b2d31;
-    --bg-elev: #313338;
-    --text: #f2f3f5;
-    --text-muted: #b5bac1;
-    --green: #23a55a;
-    --border: #3f4147;
-    --radius: 14px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "gg sans", "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: radial-gradient(1200px 600px at 50% -10%, #2a2d45 0%, var(--bg) 55%) no-repeat, var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: #00a8fc; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoThanksDiscord — declutter your Discord sidebar</title>
+    <meta
+      name="description"
+      content="A BetterDiscord plugin that hides the Nitro, Shop, and Quests tabs and other upsell clutter from your sidebar, and stops seasonal sounds overriding your soundpack."
+    />
+    <meta property="og:title" content="NoThanksDiscord" />
+    <meta
+      property="og:description"
+      content="No upsells, no clutter — just the stuff you actually use."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://tony-nz.github.io/NoThanksDiscord"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🙅</text></svg>"
+    />
+    <style>
+      :root {
+        --blurple: #5865f2;
+        --blurple-hover: #4752c4;
+        --bg: #1e1f22;
+        --bg-card: #2b2d31;
+        --bg-elev: #313338;
+        --text: #f2f3f5;
+        --text-muted: #b5bac1;
+        --green: #23a55a;
+        --border: #3f4147;
+        --radius: 14px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          "gg sans",
+          "Noto Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background:
+          radial-gradient(1200px 600px at 50% -10%, #2a2d45 0%, var(--bg) 55%)
+            no-repeat,
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: #00a8fc;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
 
-  header { text-align: center; padding: 90px 20px 40px; }
-  .emoji { font-size: 64px; line-height: 1; }
-  h1 { font-size: 2.6rem; font-weight: 800; margin: 14px 0 6px; letter-spacing: -0.02em; }
-  .tagline { font-size: 1.25rem; color: var(--text-muted); max-width: 620px; margin: 0 auto 28px; }
+      header {
+        text-align: center;
+        padding: 90px 20px 40px;
+      }
+      .emoji {
+        font-size: 64px;
+        line-height: 1;
+      }
+      h1 {
+        font-size: 2.6rem;
+        font-weight: 800;
+        margin: 14px 0 6px;
+        letter-spacing: -0.02em;
+      }
+      .tagline {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 620px;
+        margin: 0 auto 28px;
+      }
 
-  .btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 13px 24px; border-radius: 8px; font-weight: 600; font-size: 1rem;
-    transition: background .15s ease, transform .05s ease;
-  }
-  .btn:hover { text-decoration: none; transform: translateY(-1px); }
-  .btn-primary { background: var(--blurple); color: #fff; }
-  .btn-primary:hover { background: var(--blurple-hover); }
-  .btn-ghost { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
-  .btn-ghost:hover { background: var(--bg-elev); }
+      .btns {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 13px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition:
+          background 0.15s ease,
+          transform 0.05s ease;
+      }
+      .btn:hover {
+        text-decoration: none;
+        transform: translateY(-1px);
+      }
+      .btn-primary {
+        background: var(--blurple);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--blurple-hover);
+      }
+      .btn-ghost {
+        background: var(--bg-card);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        background: var(--bg-elev);
+      }
 
-  section { padding: 36px 0; }
-  h2 { font-size: 1.5rem; margin-bottom: 18px; font-weight: 700; }
-  h2 .dot { color: var(--blurple); }
+      section {
+        padding: 36px 0;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+        font-weight: 700;
+      }
+      h2 .dot {
+        color: var(--blurple);
+      }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
-  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; }
-  .card h3 { font-size: 1.05rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-  .card p { color: var(--text-muted); font-size: .94rem; }
-  .badge { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
-           padding: 2px 7px; border-radius: 5px; background: rgba(88,101,242,.18); color: #b8c0ff; }
-  .badge.opt { background: rgba(255,255,255,.08); color: var(--text-muted); }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 14px;
+      }
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+      }
+      .card h3 {
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card p {
+        color: var(--text-muted);
+        font-size: 0.94rem;
+      }
+      .badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 2px 7px;
+        border-radius: 5px;
+        background: rgba(88, 101, 242, 0.18);
+        color: #b8c0ff;
+      }
+      .badge.opt {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text-muted);
+      }
 
-  ol.steps { list-style: none; counter-reset: step; display: grid; gap: 12px; }
-  ol.steps li { counter-increment: step; position: relative; padding: 16px 18px 16px 58px;
-                background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); }
-  ol.steps li::before {
-    content: counter(step); position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-    width: 28px; height: 28px; border-radius: 50%; background: var(--blurple); color: #fff;
-    font-weight: 700; display: grid; place-items: center; font-size: .9rem;
-  }
-  code, .path { font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: .88em;
-                background: var(--bg); border: 1px solid var(--border); border-radius: 5px; padding: 2px 6px; }
-  table { width: 100%; border-collapse: collapse; background: var(--bg-card);
-          border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); }
-  th { background: var(--bg-elev); font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
-  tr:last-child td { border-bottom: none; }
-  td .path { display: inline-block; }
+      ol.steps {
+        list-style: none;
+        counter-reset: step;
+        display: grid;
+        gap: 12px;
+      }
+      ol.steps li {
+        counter-increment: step;
+        position: relative;
+        padding: 16px 18px 16px 58px;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+      ol.steps li::before {
+        content: counter(step);
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--blurple);
+        color: #fff;
+        font-weight: 700;
+        display: grid;
+        place-items: center;
+        font-size: 0.9rem;
+      }
+      code,
+      .path {
+        font-family: "SF Mono", "Fira Code", Consolas, monospace;
+        font-size: 0.88em;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 2px 6px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        background: var(--bg-elev);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--text-muted);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      td .path {
+        display: inline-block;
+      }
 
-  .note { background: rgba(35,165,90,.1); border: 1px solid rgba(35,165,90,.4); border-radius: var(--radius);
-          padding: 16px 18px; color: var(--text); }
-  .note strong { color: var(--text); }
-  .note .label { color: var(--green); }
+      .note {
+        background: rgba(35, 165, 90, 0.1);
+        border: 1px solid rgba(35, 165, 90, 0.4);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        color: var(--text);
+      }
+      .note strong {
+        color: var(--text);
+      }
+      .note .label {
+        color: var(--green);
+      }
 
-  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-  .shots img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); display: block; }
+      .shots {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+      }
+      .shots img {
+        width: 100%;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        display: block;
+      }
 
-  footer { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: .9rem; border-top: 1px solid var(--border); margin-top: 30px; }
-</style>
-</head>
-<body>
-<header>
-  <div class="emoji">🙅</div>
-  <h1>NoThanksDiscord</h1>
-  <p class="tagline">A BetterDiscord plugin that hides the Nitro, Shop, and Quests tabs — plus other upsell clutter — from your sidebar. No upsells, no clutter, no seasonal sounds. Just the stuff you actually use.</p>
-  <div class="btns">
-    <a class="btn btn-primary" href="https://raw.githubusercontent.com/tony-nz/NoThanksDiscord/main/NoThanksDiscord.plugin.js">⬇️ Download plugin</a>
-    <a class="btn btn-ghost" href="https://github.com/tony-nz/NoThanksDiscord">★ View on GitHub</a>
-  </div>
-</header>
+      footer {
+        text-align: center;
+        padding: 50px 20px;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        border-top: 1px solid var(--border);
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="emoji">🙅</div>
+      <h1>NoThanksDiscord</h1>
+      <p class="tagline">
+        A BetterDiscord plugin that hides the Nitro, Shop, and Quests tabs —
+        plus other upsell clutter — from your sidebar. No upsells, no clutter,
+        no seasonal sounds. Just the stuff you actually use.
+      </p>
+      <div class="btns">
+        <a
+          class="btn btn-primary"
+          href="https://raw.githubusercontent.com/tony-nz/NoThanksDiscord/main/NoThanksDiscord.plugin.js"
+          >⬇️ Download plugin</a
+        >
+        <a
+          class="btn btn-ghost"
+          href="https://github.com/tony-nz/NoThanksDiscord"
+          >★ View on GitHub</a
+        >
+      </div>
+    </header>
 
-<main class="wrap">
+    <main class="wrap">
+      <section>
+        <h2><span class="dot">#</span> What it hides</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Nitro tab <span class="badge">On</span></h3>
+            <p>Removes the Nitro tab from the home sidebar.</p>
+          </div>
+          <div class="card">
+            <h3>Shop tab <span class="badge">On</span></h3>
+            <p>Removes the Shop tab from the home sidebar.</p>
+          </div>
+          <div class="card">
+            <h3>Quests tab <span class="badge">On</span></h3>
+            <p>
+              Removes the Quests tab, including its various element variants.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Gift button <span class="badge">On</span></h3>
+            <p>Removes the gift-a-Nitro icon next to the message box.</p>
+          </div>
+          <div class="card">
+            <h3>Boost upsells <span class="badge">On</span></h3>
+            <p>Removes “Boost this server” banners and prompts.</p>
+          </div>
+          <div class="card">
+            <h3>Nitro upsells <span class="badge">On</span></h3>
+            <p>
+              Removes “Get/Try Nitro” prompts in the emoji picker, profiles, and
+              more.
+            </p>
+          </div>
+          <div class="card">
+            <h3>App launcher <span class="badge opt">Opt-in</span></h3>
+            <p>
+              Removes the activities / app-launcher button by the message box.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Server discovery <span class="badge opt">Opt-in</span></h3>
+            <p>
+              Removes the “Discover” compass at the bottom of the guild list.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Active Now <span class="badge opt">Opt-in</span></h3>
+            <p>Removes the friend-activity panel on the Home page.</p>
+          </div>
+          <div class="card">
+            <h3>Seasonal sounds <span class="badge">On</span></h3>
+            <p>
+              Stops Halloween / Winter sound packs from overriding your
+              soundpack.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  <section>
-    <h2><span class="dot">#</span> What it hides</h2>
-    <div class="grid">
-      <div class="card"><h3>Nitro tab <span class="badge">On</span></h3><p>Removes the Nitro tab from the home sidebar.</p></div>
-      <div class="card"><h3>Shop tab <span class="badge">On</span></h3><p>Removes the Shop tab from the home sidebar.</p></div>
-      <div class="card"><h3>Quests tab <span class="badge">On</span></h3><p>Removes the Quests tab, including its various element variants.</p></div>
-      <div class="card"><h3>Gift button <span class="badge">On</span></h3><p>Removes the gift-a-Nitro icon next to the message box.</p></div>
-      <div class="card"><h3>Boost upsells <span class="badge">On</span></h3><p>Removes “Boost this server” banners and prompts.</p></div>
-      <div class="card"><h3>Nitro upsells <span class="badge">On</span></h3><p>Removes “Get/Try Nitro” prompts in the emoji picker, profiles, and more.</p></div>
-      <div class="card"><h3>App launcher <span class="badge opt">Opt-in</span></h3><p>Removes the activities / app-launcher button by the message box.</p></div>
-      <div class="card"><h3>Server discovery <span class="badge opt">Opt-in</span></h3><p>Removes the “Discover” compass at the bottom of the guild list.</p></div>
-      <div class="card"><h3>Active Now <span class="badge opt">Opt-in</span></h3><p>Removes the friend-activity panel on the Home page.</p></div>
-      <div class="card"><h3>Seasonal sounds <span class="badge">On</span></h3><p>Stops Halloween / Winter sound packs from overriding your soundpack.</p></div>
-    </div>
-  </section>
+      <section>
+        <h2><span class="dot">#</span> Screenshots</h2>
+        <div class="shots">
+          <img src="screenshot.png" alt="NoThanksDiscord settings panel" />
+        </div>
+      </section>
 
-  <section>
-    <h2><span class="dot">#</span> Screenshots</h2>
-    <div class="shots">
-      <img src="screenshot.png" alt="NoThanksDiscord settings panel" />
-    </div>
-  </section>
+      <section>
+        <h2><span class="dot">#</span> Install</h2>
+        <ol class="steps">
+          <li>
+            Install <a href="https://betterdiscord.app/">BetterDiscord</a> if
+            you haven't already.
+          </li>
+          <li>
+            <a
+              href="https://raw.githubusercontent.com/tony-nz/NoThanksDiscord/main/NoThanksDiscord.plugin.js"
+              >Download <code>NoThanksDiscord.plugin.js</code></a
+            >.
+          </li>
+          <li>
+            Drop it into your BetterDiscord <code>plugins</code> folder (paths
+            below), or use
+            <strong>Settings → Plugins → Open Plugins Folder</strong>.
+          </li>
+          <li>
+            In Discord, open <strong>Settings → Plugins</strong> and enable
+            <strong>NoThanksDiscord</strong>.
+          </li>
+        </ol>
 
-  <section>
-    <h2><span class="dot">#</span> Install</h2>
-    <ol class="steps">
-      <li>Install <a href="https://betterdiscord.app/">BetterDiscord</a> if you haven't already.</li>
-      <li><a href="https://raw.githubusercontent.com/tony-nz/NoThanksDiscord/main/NoThanksDiscord.plugin.js">Download <code>NoThanksDiscord.plugin.js</code></a>.</li>
-      <li>Drop it into your BetterDiscord <code>plugins</code> folder (paths below), or use <strong>Settings → Plugins → Open Plugins Folder</strong>.</li>
-      <li>In Discord, open <strong>Settings → Plugins</strong> and enable <strong>NoThanksDiscord</strong>.</li>
-    </ol>
+        <table style="margin-top: 18px">
+          <thead>
+            <tr>
+              <th>OS</th>
+              <th>Plugins folder</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>macOS</td>
+              <td>
+                <span class="path"
+                  >~/Library/Application Support/BetterDiscord/plugins</span
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Windows</td>
+              <td><span class="path">%AppData%\BetterDiscord\plugins</span></td>
+            </tr>
+            <tr>
+              <td>Linux</td>
+              <td><span class="path">~/.config/BetterDiscord/plugins</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-    <table style="margin-top:18px">
-      <thead><tr><th>OS</th><th>Plugins folder</th></tr></thead>
-      <tbody>
-        <tr><td>macOS</td><td><span class="path">~/Library/Application Support/BetterDiscord/plugins</span></td></tr>
-        <tr><td>Windows</td><td><span class="path">%AppData%\BetterDiscord\plugins</span></td></tr>
-        <tr><td>Linux</td><td><span class="path">~/.config/BetterDiscord/plugins</span></td></tr>
-      </tbody>
-    </table>
-  </section>
+      <section>
+        <h2><span class="dot">#</span> How it works</h2>
+        <div class="card">
+          <p style="margin-bottom: 12px">
+            <strong style="color: var(--text)">UI hiding</strong> injects CSS
+            targeting stable attributes (<code>href</code>,
+            <code>aria-label</code>) or stable class-name
+            <em>prefixes</em> (<code>[class*="questsButton_"]</code>) — never
+            full class names. Discord rotates the hash on its class names every
+            build, but the prefix and these attributes stay put, so the
+            selectors survive where class-based ones break.
+          </p>
+          <p>
+            <strong style="color: var(--text)">Seasonal sounds</strong> are
+            handled by patching Discord's <code>SoundpackStore</code>: when
+            <code>getSoundpack()</code> reports a seasonal pack
+            (<code>halloween</code>, <code>winter_holiday</code>), the plugin
+            returns <code>classic</code> instead — so seasonal audio stops
+            overriding your choice, while any non-seasonal pack you picked
+            yourself is left alone.
+          </p>
+        </div>
+      </section>
 
-  <section>
-    <h2><span class="dot">#</span> How it works</h2>
-    <div class="card">
-      <p style="margin-bottom:12px"><strong style="color:var(--text)">UI hiding</strong> injects CSS targeting stable attributes (<code>href</code>, <code>aria-label</code>) or stable class-name <em>prefixes</em> (<code>[class*="questsButton_"]</code>) — never full class names. Discord rotates the hash on its class names every build, but the prefix and these attributes stay put, so the selectors survive where class-based ones break.</p>
-      <p><strong style="color:var(--text)">Seasonal sounds</strong> are handled by patching Discord's <code>SoundpackStore</code>: when <code>getSoundpack()</code> reports a seasonal pack (<code>halloween</code>, <code>winter_holiday</code>), the plugin returns <code>classic</code> instead — so seasonal audio stops overriding your choice, while any non-seasonal pack you picked yourself is left alone.</p>
-    </div>
-  </section>
+      <section>
+        <div class="note">
+          <strong class="label">Tip:</strong> every item is an independent
+          toggle in <strong>Settings → Plugins → NoThanksDiscord → ⚙️</strong>.
+          <div style="margin-top: 6px">
+            Hide everything, or just the bits that bug you.
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <section>
-    <div class="note">
-      <strong class="label">Tip:</strong> every item is an independent toggle in
-      <strong>Settings → Plugins → NoThanksDiscord → ⚙️</strong>. Hide everything, or just the bits that bug you.
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  <p>NoThanksDiscord · MIT licensed · not affiliated with Discord or BetterDiscord</p>
-  <p style="margin-top:6px"><a href="https://github.com/tony-nz/NoThanksDiscord">github.com/tony-nz/NoThanksDiscord</a></p>
-</footer>
-</body>
+    <footer>
+      <p>
+        NoThanksDiscord · MIT licensed · not affiliated with Discord or
+        BetterDiscord
+      </p>
+      <p style="margin-top: 6px">
+        <a href="https://github.com/tony-nz/NoThanksDiscord"
+          >github.com/tony-nz/NoThanksDiscord</a
+        >
+      </p>
+    </footer>
+  </body>
 </html>
