@@ -11,8 +11,7 @@ Everything is a separate toggle, so you can hide all of it or just the bits that
 The settings panel — every item is an independent toggle:
 
 <p align="center">
-  <img src="docs/screenshot-01.png" alt="NoThanksDiscord settings panel — sidebar and UI toggles" width="45%" />
-  <img src="docs/screenshot-02.png" alt="NoThanksDiscord settings panel — upsells and seasonal sounds toggle" width="45%" />
+  <img src="docs/screenshot.png" alt="NoThanksDiscord settings panel" width="100%" />
 </p>
 
 ## Install
