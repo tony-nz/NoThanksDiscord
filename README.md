@@ -4,6 +4,8 @@ A [BetterDiscord](https://betterdiscord.app/) plugin that strips the **Nitro**, 
 
 Everything is a separate toggle, so you can hide all of it or just the bits that bug you.
 
+**🌐 Website:** [tony-nz.github.io/NoThanksDiscord](https://tony-nz.github.io/NoThanksDiscord) · **⬇️ [Download the plugin](https://raw.githubusercontent.com/tony-nz/NoThanksDiscord/main/NoThanksDiscord.plugin.js)**
+
 ## Screenshot
 
 <!-- TODO: add a before/after screenshot of the sidebar -->
