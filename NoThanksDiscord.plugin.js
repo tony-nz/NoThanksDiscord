@@ -136,6 +136,7 @@ module.exports = class NoThanksDiscord {
   start() {
     this.applyStyles();
     this.applySounds();
+    this.moveToFriends();
   }
 
   stop() {
@@ -190,6 +191,13 @@ module.exports = class NoThanksDiscord {
     }
   }
 
+  moveToFriends() {
+    if (!this.settings.noQuests) return;
+    if (window.location.pathname == "/quest-home") {
+      document.querySelector(`a[href="/channels/@me"]`).click();
+    }
+  }
+
   getSettingsPanel() {
     const settings = UI_FEATURES.map((f) => ({
       type: "switch",
@@ -198,6 +206,13 @@ module.exports = class NoThanksDiscord {
       note: f.note,
       value: this.settings[f.id],
     }));
+    settings.push({
+      type: "switch",
+      id: "noQuests",
+      name: "No Quests at launch",
+      note: "Shows Friends page instead of Quests at launch",
+      value: this.settings.noQuests,
+    });
 
     settings.push({
       type: "switch",
